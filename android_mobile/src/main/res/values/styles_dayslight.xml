@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
   <style name="Theme.Memento.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     <item name="android:windowBackground">@color/light_grey</item>
     <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/useDarkIcons</item>
@@ -12,6 +13,7 @@
 
   <style name="Theme.Memento.Dark"
     parent="@style/Theme.AppCompat.NoActionBar">
+    <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
     <item name="useDarkIcons">false</item>
     <item name="toolbarIconColor">@color/dark_toolbar_icon_color</item>
@@ -105,7 +107,10 @@
   <color name="dark_toolbar_icon_color">#fff</color>
   <color name="light_toolbar_icon_color">#000</color>
 
-  <attr name="primaryTextColor" format="reference|color" />
-  <attr name="primaryTextColorInverse" format="reference|color" />
-  <attr name="toolbarIconColor" format="color" />
+  <attr name="primaryTextColor"
+    format="reference|color" />
+  <attr name="primaryTextColorInverse"
+    format="reference|color" />
+  <attr name="toolbarIconColor"
+    format="color" />
 </resources>

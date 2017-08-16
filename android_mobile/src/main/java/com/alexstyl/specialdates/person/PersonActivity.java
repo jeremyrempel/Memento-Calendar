@@ -63,10 +63,14 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView 
     private ContactItemsAdapter adapter;
     private ExternalNavigator navigator;
     private ImageView toolbarGradient;
-    @Inject Analytics analytics;
-    @Inject StringResources stringResources;
-    @Inject ImageLoader imageLoader;
-    @Inject NamedayUserSettings namedayUserSettings;
+    @Inject
+    Analytics analytics;
+    @Inject
+    StringResources stringResources;
+    @Inject
+    ImageLoader imageLoader;
+    @Inject
+    NamedayUserSettings namedayUserSettings;
 
     private Optional<Contact> displayingContact = Optional.absent();
 
@@ -160,13 +164,6 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView 
         }
     }
 
-    public static Intent buildIntentFor(Context context, Contact contact) {
-        Intent intent = new Intent(context, PersonActivity.class);
-        intent.putExtra(EXTRA_CONTACT_ID, contact.getContactID());
-        intent.putExtra(EXTRA_CONTACT_SOURCE, contact.getSource());
-        return intent;
-    }
-
     @Override
     public void displayPersonInfo(PersonInfoViewModel viewModel) {
         imageLoader.load(viewModel.getImage())
@@ -250,5 +247,12 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView 
             }
         }
     };
+
+    public static Intent buildIntentFor(Context context, Contact contact) {
+        Intent intent = new Intent(context, PersonActivity.class);
+        intent.putExtra(EXTRA_CONTACT_ID, contact.getContactID());
+        intent.putExtra(EXTRA_CONTACT_SOURCE, contact.getSource());
+        return intent;
+    }
 
 }

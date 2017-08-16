@@ -23,6 +23,6 @@ internal class ContactEventViewHolder(view: View,
         imageLoader.load(viewModel.contactImagePath)
                 .asCircle()
                 .into(avatarView.imageView)
-        itemView.setOnClickListener { listener.onContactClicked(viewModel.contact) }
+        itemView.setOnClickListener { listener.onContactClicked(viewModel.contact, avatarView.imageView) }
     }
 }

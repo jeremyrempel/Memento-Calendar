@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -51,11 +52,16 @@ public class UpcomingEventsFragment extends MementoFragment implements UpcomingL
     private UpcomingEventsAdapter adapter;
     private UpcomingEventsNavigator navigator;
     private ContactPermissionRequest permissions;
-    @Inject Analytics analytics;
-    @Inject StringResources stringResources;
-    @Inject ColorResources colorResources;
-    @Inject ImageLoader imageLoader;
-    @Inject UpcomingEventsProvider provider;
+    @Inject
+    Analytics analytics;
+    @Inject
+    StringResources stringResources;
+    @Inject
+    ColorResources colorResources;
+    @Inject
+    ImageLoader imageLoader;
+    @Inject
+    UpcomingEventsProvider provider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,9 +105,8 @@ public class UpcomingEventsFragment extends MementoFragment implements UpcomingL
         adapter = new UpcomingEventsAdapter(new UpcomingViewHolderFactory(inflater, imageLoader), new OnUpcomingEventClickedListener() {
 
             @Override
-            public void onContactClicked(Contact contact) {
-                navigator.toContactDetails(contact);
-
+            public void onContactClicked(Contact contact, ImageView avatar) {
+                navigator.toContactDetails(contact, avatar);
             }
 
             @Override

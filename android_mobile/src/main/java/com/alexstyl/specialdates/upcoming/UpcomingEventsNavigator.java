@@ -1,9 +1,11 @@
 package com.alexstyl.specialdates.upcoming;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.ImageView;
 
 import com.alexstyl.resources.StringResources;
 import com.alexstyl.specialdates.ErrorTracker;
@@ -138,9 +140,11 @@ final class UpcomingEventsNavigator {
         activity.startActivity(intent);
     }
 
-    void toContactDetails(Contact contact) {
+    void toContactDetails(Contact contact, ImageView imageView) {
         Intent intent = PersonActivity.buildIntentFor(activity, contact);
-        activity.startActivity(intent);
+        String transitionName = imageView.getResources().getString(R.string.transition_person_avatar);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(activity, imageView, transitionName);
+        activity.startActivity(intent, transitionActivityOptions.toBundle());
         analytics.trackContactDetailsViewed(contact);
     }
 }

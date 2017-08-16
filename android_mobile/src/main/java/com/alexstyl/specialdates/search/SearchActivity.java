@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import com.alexstyl.resources.StringResources;
 import com.alexstyl.specialdates.AppComponent;
@@ -80,10 +81,14 @@ public class SearchActivity extends ThemedMementoActivity {
     private PeopleEventsSearch peopleEventsSearch;
     private ContactEventViewModelFactory viewModelFactory;
     private SearchNavigator searchNavigator;
-    @Inject Analytics analytics;
-    @Inject StringResources stringResources;
-    @Inject ImageLoader imageLoader;
-    @Inject NamedayUserSettings namedayUserSettings;
+    @Inject
+    Analytics analytics;
+    @Inject
+    StringResources stringResources;
+    @Inject
+    ImageLoader imageLoader;
+    @Inject
+    NamedayUserSettings namedayUserSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -302,8 +307,8 @@ public class SearchActivity extends ThemedMementoActivity {
     private final SearchResultAdapter.SearchResultClickListener listener = new SearchResultAdapter.SearchResultClickListener() {
 
         @Override
-        public void onContactClicked(Contact contact) {
-            searchNavigator.toContactDetails(contact);
+        public void onContactClicked(Contact contact, ImageView avatar) {
+            searchNavigator.toContactDetails(contact, avatar);
         }
 
         @Override
