@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alexstyl.specialdates.R;
@@ -34,7 +35,7 @@ final class SearchResultContactViewHolder extends RecyclerView.ViewHolder {
     void bind(final ContactEventViewModel viewModel, final SearchResultAdapter.SearchResultClickListener listener) {
         avatar.setCircleColorVariant(viewModel.getBackgroundVariant());
         avatar.setLetter(viewModel.getDisplayName(), true);
-        
+
         displayName.setText(viewModel.getDisplayName());
         imageLoader
                 .load(viewModel.getContactAvatarURI())
@@ -46,10 +47,13 @@ final class SearchResultContactViewHolder extends RecyclerView.ViewHolder {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onContactClicked(viewModel.getContact());
+                        listener.onContactClicked(viewModel.getContact(), getAdapterPosition());
                     }
                 }
         );
     }
 
+    public ImageView getImageView() {
+        return avatar.getImageView();
+    }
 }

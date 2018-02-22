@@ -48,8 +48,9 @@ public class PeopleFragment extends MementoFragment implements PeopleView {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter = new PeopleAdapter(imageLoader, inflater, new PeopleViewHolderListener() {
             @Override
-            public void onPersonClicked(Contact contact) {
-                navigator.toContactDetails(contact, getActivity());
+            public void onPersonClicked(Contact contact, int position) {
+                PeopleViewHolder viewHolder = (PeopleViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+                navigator.toContactDetails(contact, getActivity(), viewHolder.getImageView());
             }
 
             @Override

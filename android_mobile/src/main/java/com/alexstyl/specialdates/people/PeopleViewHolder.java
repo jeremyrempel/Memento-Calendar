@@ -2,6 +2,7 @@ package com.alexstyl.specialdates.people;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alexstyl.specialdates.images.ImageLoader;
@@ -31,8 +32,12 @@ class PeopleViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onPersonClicked(viewModel.getContact());
+                listener.onPersonClicked(viewModel.getContact(), getAdapterPosition());
             }
         });
+    }
+
+    public ImageView getImageView() {
+        return imageView.getImageView();
     }
 }

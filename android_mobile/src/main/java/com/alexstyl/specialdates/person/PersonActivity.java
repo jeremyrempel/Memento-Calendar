@@ -1,5 +1,6 @@
 package com.alexstyl.specialdates.person;
 
+import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -38,12 +40,12 @@ import com.alexstyl.specialdates.contact.ContactSource;
 import com.alexstyl.specialdates.contact.ContactsProvider;
 import com.alexstyl.specialdates.date.Date;
 import com.alexstyl.specialdates.date.DateLabelCreator;
-import com.alexstyl.specialdates.ui.HideStatusBarListener;
 import com.alexstyl.specialdates.events.namedays.NamedayUserSettings;
 import com.alexstyl.specialdates.events.peopleevents.PeopleEventsPersister;
 import com.alexstyl.specialdates.events.peopleevents.PeopleEventsProvider;
 import com.alexstyl.specialdates.images.ImageLoadedConsumer;
 import com.alexstyl.specialdates.images.ImageLoader;
+import com.alexstyl.specialdates.ui.HideStatusBarListener;
 import com.alexstyl.specialdates.ui.base.ThemedMementoActivity;
 import com.alexstyl.specialdates.ui.widget.MementoToolbar;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
@@ -74,7 +76,7 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
     @Inject CrashAndErrorTracker tracker;
 
     private static final int ID_TOGGLE_VISIBILITY = 1023;
-    
+
     private AppBarLayout appBarLayout;
     private ImageView toolbarGradient;
     private ImageView avatarView;
@@ -87,10 +89,19 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
     private PersonDetailsNavigator navigator;
     private ContactItemsAdapter adapter;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+
+//        getWindow().setEnterTransition(new Fade(Fade.MODE_OUT));
+//        getWindow().setExitTransition(new Fade(Fade.MODE_IN));
+
         setContentView(R.layout.activity_person);
+
+        supportPostponeEnterTransition();
 
         appBarLayout = findViewById(R.id.person_appbar);
 
@@ -193,6 +204,8 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
 
                     @Override
                     public void onImageLoaded(Bitmap loadedImage) {
+                        supportStartPostponedEnterTransition();
+
                         if (Version.hasLollipop()) {
                             appBarLayout.addOnOffsetChangedListener(new HideStatusBarListener(getWindow()));
                         }
@@ -204,6 +217,8 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
                         toolbarGradient.setImageDrawable(transitionDrawable);
                         transitionDrawable.startTransition(ANIMATION_DURATION);
                         toolbarGradient.setVisibility(View.VISIBLE);
+
+                        // TODO use pallete to use dark or light icons
                     }
 
                     @Override
@@ -289,7 +304,7 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == android.R.id.home && !wasCalledFromMemento()) {
-            finish();
+            supportFinishAfterTransition();
             return true;
         } else if (itemId == R.id.menu_view_contact) {
             navigator.toViewContact(displayingContact);

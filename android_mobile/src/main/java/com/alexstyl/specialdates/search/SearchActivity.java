@@ -172,13 +172,6 @@ public class SearchActivity extends ThemedMementoActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        searchbar.requestFocus();
-        AndroidUtils.toggleKeyboard(this);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         permissions.onActivityResult(requestCode, resultCode, data);
@@ -313,8 +306,9 @@ public class SearchActivity extends ThemedMementoActivity {
     private final SearchResultAdapter.SearchResultClickListener listener = new SearchResultAdapter.SearchResultClickListener() {
 
         @Override
-        public void onContactClicked(Contact contact) {
-            searchNavigator.toContactDetails(contact);
+        public void onContactClicked(Contact contact, int position) {
+            SearchResultContactViewHolder viewHolder = (SearchResultContactViewHolder) resultView.findViewHolderForAdapterPosition(position);
+            searchNavigator.toContactDetails(contact, viewHolder.getImageView());
         }
 
         @Override

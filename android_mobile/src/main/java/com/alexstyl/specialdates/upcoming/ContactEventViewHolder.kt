@@ -1,6 +1,7 @@
 package com.alexstyl.specialdates.upcoming
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.alexstyl.specialdates.images.ImageLoader
 import com.alexstyl.specialdates.ui.widget.ColorImageView
@@ -23,6 +24,8 @@ internal class ContactEventViewHolder(view: View,
         imageLoader.load(viewModel.contactImagePath)
                 .asCircle()
                 .into(avatarView.imageView)
-        itemView.setOnClickListener { listener.onContactClicked(viewModel.contact) }
+        itemView.setOnClickListener { listener.onContactClicked(viewModel.contact, adapterPosition) }
     }
+
+    fun getImageView(): ImageView = avatarView.imageView
 }

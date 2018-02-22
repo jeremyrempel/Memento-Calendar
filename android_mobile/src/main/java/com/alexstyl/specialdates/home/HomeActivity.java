@@ -92,7 +92,7 @@ public class HomeActivity extends ThemedMementoActivity implements DatePickerDia
 
     @Override
     public void onDateSelected(Date dateSelected) {
-        navigator.toDateDetails(dateSelected, this);
+        navigator.toNamedayDate(dateSelected, this);
     }
 
     @Override

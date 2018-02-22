@@ -1,9 +1,13 @@
 package com.alexstyl.specialdates.home;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.widget.ImageView;
 
 import com.alexstyl.specialdates.CrashAndErrorTracker;
 import com.alexstyl.specialdates.ShareAppIntentCreator;
@@ -115,8 +119,7 @@ public final class HomeNavigator {
         analytics.trackScreen(Screen.SEARCH);
     }
 
-
-    public void toDateDetails(Date dateSelected, Activity activity) {
+    public void toNamedayDate(Date dateSelected, Activity activity) {
         Intent intent = NamedayActivity.Companion.getStartIntent(activity, dateSelected);
         activity.startActivity(intent);
         analytics.trackScreen(Screen.DATE_DETAILS);
@@ -136,9 +139,11 @@ public final class HomeNavigator {
         activity.startActivity(intent);
     }
 
-    public void toContactDetails(Contact contact, Activity activity) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void toContactDetails(Contact contact, Activity activity, ImageView imageView) {
         Intent intent = PersonActivity.buildIntentFor(activity, contact);
-        activity.startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, "avatar");
+        activity.startActivity(intent, options.toBundle());
         analytics.trackContactDetailsViewed(contact);
     }
 }
