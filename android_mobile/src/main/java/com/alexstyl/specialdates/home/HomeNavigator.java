@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
+import android.view.View;
 
 import com.alexstyl.specialdates.CrashAndErrorTracker;
 import com.alexstyl.specialdates.ShareAppIntentCreator;
@@ -136,9 +139,17 @@ public final class HomeNavigator {
         activity.startActivity(intent);
     }
 
-    public void toContactDetails(Contact contact, Activity activity) {
+    public void toContactDetails(Contact contact, Activity activity, View avatar) {
         Intent intent = PersonActivity.buildIntentFor(activity, contact);
-        activity.startActivity(intent);
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(
+                        activity,
+                        avatar,
+                        ViewCompat.getTransitionName(avatar)
+                );
+        activity.startActivity(intent, options.toBundle());
+
         analytics.trackContactDetailsViewed(contact);
     }
 

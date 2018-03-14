@@ -49,8 +49,8 @@ public class PeopleFragment extends MementoFragment implements PeopleView, Upcom
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter = new PeopleAdapter(imageLoader, inflater, new PeopleViewHolderListener() {
             @Override
-            public void onPersonClicked(Contact contact) {
-                navigator.toContactDetails(contact, getActivity());
+            public void onPersonClicked(Contact contact, View avatar) {
+                navigator.toContactDetails(contact, getActivity(), avatar);
             }
 
             @Override

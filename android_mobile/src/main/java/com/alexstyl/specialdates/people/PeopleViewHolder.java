@@ -9,29 +9,29 @@ import com.alexstyl.specialdates.ui.widget.ColorImageView;
 
 class PeopleViewHolder extends RecyclerView.ViewHolder {
 
-    private final ColorImageView imageView;
+    private final ColorImageView avatarView;
     private final TextView nameView;
     private final ImageLoader imageLoader;
 
-    PeopleViewHolder(View rowView, ImageLoader imageLoader, ColorImageView imageView, TextView nameView) {
+    PeopleViewHolder(View rowView, ImageLoader imageLoader, ColorImageView avatarView, TextView nameView) {
         super(rowView);
         this.imageLoader = imageLoader;
-        this.imageView = imageView;
+        this.avatarView = avatarView;
         this.nameView = nameView;
     }
 
     public void bind(final PersonViewModel viewModel, final PeopleViewHolderListener listener) {
         nameView.setText(viewModel.getPersonName());
-        imageView.setCircleColorVariant((int) viewModel.getPersonId());
-        imageView.setLetter(viewModel.getPersonName(), true);
+        avatarView.setCircleColorVariant((int) viewModel.getPersonId());
+        avatarView.setLetter(viewModel.getPersonName(), true);
         imageLoader.load(viewModel.getAvatarURI())
                 .asCircle()
-                .into(imageView.getImageView());
+                .into(avatarView.getImageView());
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onPersonClicked(viewModel.getContact());
+                listener.onPersonClicked(viewModel.getContact(), avatarView);
             }
         });
     }
