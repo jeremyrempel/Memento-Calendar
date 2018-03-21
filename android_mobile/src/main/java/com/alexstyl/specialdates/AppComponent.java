@@ -127,4 +127,5 @@ public interface AppComponent {
     void inject(PeopleFragment peopleFragment);
 
     void inject(FacebookWebView peopleFragment);
+
 }

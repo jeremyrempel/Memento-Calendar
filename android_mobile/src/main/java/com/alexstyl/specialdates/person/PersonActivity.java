@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alexstyl.android.Version;
 import com.alexstyl.specialdates.AppComponent;
 import com.alexstyl.specialdates.CrashAndErrorTracker;
 import com.alexstyl.specialdates.ExternalNavigator;
@@ -43,9 +41,9 @@ import com.alexstyl.specialdates.events.peopleevents.PeopleEventsPersister;
 import com.alexstyl.specialdates.events.peopleevents.PeopleEventsProvider;
 import com.alexstyl.specialdates.images.ImageLoadedConsumer;
 import com.alexstyl.specialdates.images.ImageLoader;
-import com.alexstyl.specialdates.ui.HideStatusBarListener;
-import com.alexstyl.specialdates.ui.base.ThemedMementoActivity;
+import com.alexstyl.specialdates.ui.base.MementoActivity;
 import com.alexstyl.specialdates.ui.widget.MementoToolbar;
+import com.appeaser.imagetransitionlibrary.ImageTransitionUtil;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -53,12 +51,13 @@ import com.novoda.notils.caster.Views;
 
 import javax.inject.Inject;
 
+import io.plaidapp.ui.widget.ElasticDragDismissFrameLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.alexstyl.specialdates.contact.ContactSource.SOURCE_DEVICE;
 
-public class PersonActivity extends ThemedMementoActivity implements PersonView, BottomSheetIntentListener {
+public class PersonActivity extends MementoActivity implements PersonView, BottomSheetIntentListener {
 
     private static final String EXTRA_CONTACT_SOURCE = "extra:source";
     private static final String EXTRA_CONTACT_ID = "extra:id";
@@ -74,9 +73,9 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
     @Inject CrashAndErrorTracker tracker;
 
     private static final int ID_TOGGLE_VISIBILITY = 1023;
-    
-    private AppBarLayout appBarLayout;
-    private ImageView toolbarGradient;
+
+    //    private AppBarLayout appBarLayout;
+//    private ImageView toolbarGradient;
     private ImageView avatarView;
     private TextView personNameView;
     private TextView ageAndSignView;
@@ -92,7 +91,7 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
 
-        appBarLayout = findViewById(R.id.person_appbar);
+//        appBarLayout = findViewById(R.id.person_appbar);
 
         AppComponent applicationModule = ((MementoApplication) getApplication()).getApplicationModule();
         applicationModule.inject(this);
@@ -128,7 +127,7 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
         personNameView = Views.findById(this, R.id.person_name);
         ageAndSignView = Views.findById(this, R.id.person_age_and_sign);
         ViewPager viewPager = Views.findById(this, R.id.person_viewpager);
-        toolbarGradient = Views.findById(this, R.id.person_toolbar_gradient);
+//        toolbarGradient = Views.findById(this, R.id.person_toolbar_gradient);
         adapter = new ContactItemsAdapter(LayoutInflater.from(thisActivity()), onEventPressed);
 
         viewPager.setAdapter(adapter);
@@ -137,6 +136,16 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
         tabLayout = Views.findById(this, R.id.person_tabs);
         tabLayout.setupWithViewPager(viewPager, true);
 
+        final ElasticDragDismissFrameLayout dragger = Views.findById(this, R.id.person_drag);
+        dragger.addListener(new ElasticDragDismissFrameLayout.SystemChromeFader(this) {
+            @Override
+            public void onDragDismissed() {
+                supportFinishAfterTransition();
+            }
+        });
+
+        setExitSharedElementCallback(ImageTransitionUtil.prepareSharedElementCallbackFor(0F, 1F));
+        setEnterSharedElementCallback(ImageTransitionUtil.DEFAULT_SHARED_ELEMENT_CALLBACK);
     }
 
     @Override
@@ -193,17 +202,18 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
 
                     @Override
                     public void onImageLoaded(Bitmap loadedImage) {
-                        if (Version.hasLollipop()) {
-                            appBarLayout.addOnOffsetChangedListener(new HideStatusBarListener(getWindow()));
-                        }
+//                        if (Version.hasLollipop()) {
+//                            appBarLayout.addOnOffsetChangedListener(new HideStatusBarListener(getWindow()));
+//                        }
+//                        getWindow().setStatusBarColor(Color.TRANSPARENT);
                         new FadeInBitmapDisplayer(ANIMATION_DURATION).display(loadedImage, new ImageViewAware(avatarView), LoadedFrom.DISC_CACHE);
                         Drawable[] layers = new Drawable[2];
                         layers[0] = new ColorDrawable(getResources().getColor(android.R.color.transparent));
                         layers[1] = getResources().getDrawable(R.drawable.black_to_transparent_gradient_facing_down);
                         TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
-                        toolbarGradient.setImageDrawable(transitionDrawable);
+//                        toolbarGradient.setImageDrawable(transitionDrawable);
                         transitionDrawable.startTransition(ANIMATION_DURATION);
-                        toolbarGradient.setVisibility(View.VISIBLE);
+//                        toolbarGradient.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -214,7 +224,7 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
                         TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
                         avatarView.setImageDrawable(transitionDrawable);
                         transitionDrawable.startTransition(ANIMATION_DURATION);
-                        toolbarGradient.setVisibility(View.GONE);
+//                        toolbarGradient.setVisibility(View.GONE);
                     }
                 });
 
@@ -246,7 +256,8 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
 
     private void updateTabIfNeeded(int index, @DrawableRes int iconResId) {
         if (tabLayout.getTabAt(index) != null) {
-            tabLayout.getTabAt(index).setIcon(getTintedDrawable(iconResId));
+//            tabLayout.getTabAt(index).setIcon(getTintedDrawable(iconResId));
+            tabLayout.getTabAt(index).setIcon(iconResId);
         }
     }
 
@@ -288,8 +299,8 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == android.R.id.home && !wasCalledFromMemento()) {
-            finish();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
             return true;
         } else if (itemId == R.id.menu_view_contact) {
             navigator.toViewContact(displayingContact);
@@ -300,7 +311,6 @@ public class PersonActivity extends ThemedMementoActivity implements PersonView,
             } else {
                 presenter.showContact();
             }
-
         }
         return super.onOptionsItemSelected(item);
     }

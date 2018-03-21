@@ -3,6 +3,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.alexstyl.specialdates">
 
+  <uses-sdk tools:overrideLibrary="com.appeaser.imagetransitionlibrary" />
+
   <application
     android:name="com.alexstyl.specialdates.DebugApplication"
     tools:replace="android:name">

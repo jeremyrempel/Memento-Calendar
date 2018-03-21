@@ -34,7 +34,7 @@ final class SearchResultContactViewHolder extends RecyclerView.ViewHolder {
     void bind(final ContactEventViewModel viewModel, final SearchResultAdapter.SearchResultClickListener listener) {
         avatar.setCircleColorVariant(viewModel.getBackgroundVariant());
         avatar.setLetter(viewModel.getDisplayName(), true);
-        
+
         displayName.setText(viewModel.getDisplayName());
         imageLoader
                 .load(viewModel.getContactAvatarURI())
@@ -46,7 +46,7 @@ final class SearchResultContactViewHolder extends RecyclerView.ViewHolder {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onContactClicked(viewModel.getContact());
+                        listener.onContactClicked(viewModel.getContact(), avatar);
                     }
                 }
         );

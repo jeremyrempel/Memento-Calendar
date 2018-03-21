@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
@@ -297,8 +298,8 @@ public class SearchActivity extends ThemedMementoActivity {
     private final SearchResultAdapter.SearchResultClickListener listener = new SearchResultAdapter.SearchResultClickListener() {
 
         @Override
-        public void onContactClicked(Contact contact) {
-            navigator.toContactDetails(contact, thisActivity());
+        public void onContactClicked(Contact contact, View avatar) {
+            navigator.toContactDetails(contact, thisActivity(), avatar);
         }
 
         @Override

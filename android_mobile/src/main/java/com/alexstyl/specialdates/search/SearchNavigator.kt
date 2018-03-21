@@ -2,6 +2,9 @@ package com.alexstyl.specialdates.search
 
 import android.app.Activity
 import android.content.Intent
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.view.ViewCompat
+import android.view.View
 import com.alexstyl.specialdates.analytics.Analytics
 import com.alexstyl.specialdates.analytics.Screen
 import com.alexstyl.specialdates.contact.Contact
@@ -12,10 +15,14 @@ import com.alexstyl.specialdates.person.PersonActivity
 
 internal class SearchNavigator(private val analytics: Analytics) {
 
-    fun toContactDetails(contact: Contact, activity: Activity) {
+    fun toContactDetails(contact: Contact, activity: Activity, avatar: View) {
         val intent = PersonActivity.buildIntentFor(activity, contact)
-        activity.startActivity(intent)
-        analytics.trackContactDetailsViewed(contact)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                avatar,
+                ViewCompat.getTransitionName(avatar)
+        )
+        activity.startActivity(intent, options.toBundle());
     }
 
     fun toNamedays(date: Date, activity: Activity) {

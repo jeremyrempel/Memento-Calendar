@@ -2,6 +2,7 @@ package com.alexstyl.specialdates.search;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexstyl.specialdates.contact.Contact;
@@ -62,7 +63,7 @@ final class SearchResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     interface SearchResultClickListener {
 
-        void onContactClicked(Contact contact);
+        void onContactClicked(Contact contact, View avatar);
 
         void onNamedayClicked(Date date);
     }

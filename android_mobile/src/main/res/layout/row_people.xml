@@ -12,12 +12,12 @@
   app:foreground="?android:attr/selectableItemBackground"
   tools:background="#31225b61">
 
-  <com.alexstyl.specialdates.ui.widget.ColorImageView
+  <com.appeaser.imagetransitionlibrary.TransitionImageView
     android:id="@+id/people_avatar"
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:transitionName="@string/transition_avatar"
-    app:isCircle="true" />
+    app:tiv_rounding="0" />
 
   <TextView
     android:id="@+id/people_name"

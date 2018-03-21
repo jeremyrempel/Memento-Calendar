@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   package="com.alexstyl.specialdates"
-  android:installLocation="internalOnly">
+  android:installLocation="internalOnly"
+  android:label="@string/localised_app_name"
+  tools:replace="android:label">
 
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -14,8 +17,9 @@
 
   <!-- The BLUETOOTH permission is used for mixpanel-->
   <uses-permission android:name="android.permission.BLUETOOTH" />
-
   <uses-permission android:name="com.android.vending.BILLING" />
+
+  <uses-sdk tools:overrideLibrary="com.appeaser.imagetransitionlibrary" />
 
   <uses-feature
     android:name="android.hardware.camera"
@@ -25,8 +29,7 @@
     android:name="com.alexstyl.specialdates.MementoApplication"
     android:allowBackup="true"
     android:exported="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/localised_app_name">
+    android:icon="@mipmap/ic_launcher">
 
     <activity android:name="com.alexstyl.specialdates.home.HomeActivity" />
 
@@ -130,7 +133,8 @@
 
     <activity
       android:name=".person.PersonActivity"
-      android:parentActivityName=".home.HomeActivity">
+      android:parentActivityName=".home.HomeActivity"
+      android:theme="@style/Memento.Translucent">
 
       <intent-filter>
         <action android:name="com.android.contacts.action.QUICK_CONTACT" />

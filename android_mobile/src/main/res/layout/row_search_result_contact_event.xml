@@ -15,6 +15,7 @@
     <com.alexstyl.specialdates.ui.widget.ColorImageView
       android:id="@+id/search_result_avatar"
       style="@style/SearchResult.Avatar"
+      android:transitionName="@string/transition_avatar"
       tools:background="#000" />
 
     <LinearLayout
@@ -27,17 +28,17 @@
 
       <TextView
         android:id="@+id/search_result_contact_name"
+        style="@style/SearchResult.ContactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/SearchResult.ContactName"
-        tools:text="Darth Vader" />
+        tools:text="Alex Styl" />
 
       <TextView
         android:id="@+id/search_result_event_label"
         style="@style/SearchResult.EventLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Birthday on December 12"
+        tools:text="Birthday on December 19"
         tools:textColor="@color/birthday_red" />
 
     </LinearLayout>
