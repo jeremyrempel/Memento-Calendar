@@ -2,7 +2,6 @@ package com.alexstyl.specialdates.upcoming
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.alexstyl.specialdates.R
 import com.alexstyl.specialdates.images.ImageLoader
@@ -30,7 +29,7 @@ internal class UpcomingViewHolderFactory(private val layoutInflater: LayoutInfla
             }
             UpcomingRowViewType.CONTACT_EVENT -> {
                 val view = layoutInflater.inflate(R.layout.row_upcoming_events_contact_event, parent, false)
-                val avatarView = view.findViewById<ImageView>(R.id.row_upcoming_event_contact_image)
+                val avatarView = view.findViewById<ColorImageView>(R.id.row_upcoming_event_contact_image)
                 val contactName = view.findViewById<TextView>(R.id.row_upcoming_event_contact_name)
                 val eventLabel = view.findViewById<TextView>(R.id.row_upcoming_event_contact_event)
                 return ContactEventViewHolder(view, avatarView, contactName, eventLabel, imageLoader)

@@ -3,6 +3,7 @@ package com.alexstyl.specialdates.person;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +43,7 @@ import com.alexstyl.specialdates.events.peopleevents.PeopleEventsPersister;
 import com.alexstyl.specialdates.events.peopleevents.PeopleEventsProvider;
 import com.alexstyl.specialdates.images.ImageLoadedConsumer;
 import com.alexstyl.specialdates.images.ImageLoader;
+import com.alexstyl.specialdates.theming.AttributeExtractor;
 import com.alexstyl.specialdates.ui.base.MementoActivity;
 import com.alexstyl.specialdates.ui.widget.MementoToolbar;
 import com.appeaser.imagetransitionlibrary.ImageTransitionUtil;
@@ -73,6 +76,7 @@ public class PersonActivity extends MementoActivity implements PersonView, Botto
     @Inject CrashAndErrorTracker tracker;
 
     private static final int ID_TOGGLE_VISIBILITY = 1023;
+    private AttributeExtractor attributeExtractor = new AttributeExtractor();
 
     //    private AppBarLayout appBarLayout;
 //    private ImageView toolbarGradient;
@@ -264,20 +268,11 @@ public class PersonActivity extends MementoActivity implements PersonView, Botto
     @Override
     public void showPersonAsVisible() {
         throw new UnsupportedOperationException("Visibility is not currently available");
-//        isVisibleContactOptional = new Optional<>(true);
-//        avatarView.setColorFilter(Color.TRANSPARENT);
-//        invalidateOptionsMenu();
     }
 
     @Override
     public void showPersonAsHidden() {
         throw new UnsupportedOperationException("Visibility is not currently available");
-//        isVisibleContactOptional = new Optional<>(false);
-//        ColorMatrix matrix = new ColorMatrix();
-//        matrix.setSaturation(0);
-//
-//        avatarView.setColorFilter(new ColorMatrixColorFilter(matrix));
-//        invalidateOptionsMenu();
     }
 
     private Optional<Boolean> isVisibleContactOptional = Optional.absent();
@@ -285,15 +280,21 @@ public class PersonActivity extends MementoActivity implements PersonView, Botto
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_person_details, menu);
-        // TODO coming up in a follow up PR
-//        if (isVisibleContactOptional.isPresent()) {
-//            if (isVisibleContactOptional.get()) {
-//                menu.add(0, ID_TOGGLE_VISIBILITY, 0, R.string.person_hide);
-//            } else {
-//                menu.add(0, ID_TOGGLE_VISIBILITY, 0, R.string.person_show);
-//            }
-//        }
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (item.getIcon() == null) {
+                continue;
+            }
+            Drawable wrapedDrawable = DrawableCompat.wrap(item.getIcon());
+            int color = attributeExtractor.extractToolbarIconColors(this);
+            DrawableCompat.setTintList(wrapedDrawable, ColorStateList.valueOf(color));
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alexstyl.specialdates.R;
 import com.alexstyl.specialdates.images.ImageLoader;
+import com.alexstyl.specialdates.ui.widget.ColorImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == VIEW_TYPE_PERSON) {
             View rowView = inflater.inflate(R.layout.row_people, parent, false);
 
-            ImageView imageView = rowView.findViewById(R.id.people_avatar);
+            ColorImageView imageView = rowView.findViewById(R.id.people_avatar);
             TextView nameView = rowView.findViewById(R.id.people_name);
             return new PeopleViewHolder(rowView, imageLoader, imageView, nameView);
         } else if (viewType == VIEW_TYPE_IMPORT_FACEBOOK) {
