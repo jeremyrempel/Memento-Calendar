@@ -17,6 +17,7 @@ import android.transition.TransitionSet
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.alexstyl.android.toBitmap
 import com.alexstyl.specialdates.CrashAndErrorTracker
@@ -34,7 +35,7 @@ import com.alexstyl.specialdates.images.ImageLoadedConsumer
 import com.alexstyl.specialdates.images.ImageLoader
 import com.alexstyl.specialdates.transition.RadiusTransition
 import com.alexstyl.specialdates.ui.base.MementoActivity
-import com.novoda.notils.caster.Views
+import com.alexstyl.specialdates.ui.widget.MementoToolbar
 import javax.inject.Inject
 
 class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener {
@@ -51,8 +52,11 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
         @Inject set
 
     private var avatarView: ImageView? = null
+    private var displayNameView: TextView? = null
+    private var ageAndStarSignView: TextView? = null
+
     private var displayingContact = Optional.absent<Contact>()
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -72,7 +76,15 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
         val applicationModule = (application as MementoApplication).applicationModule
         applicationModule.inject(this)
         analytics!!.trackScreen(Screen.PERSON)
-        avatarView = Views.findById(this, R.id.person_avatar)
+
+        avatarView = findViewById(R.id.person_avatar)
+        displayNameView = findViewById(R.id.person_name)
+        ageAndStarSignView = findViewById(R.id.person_age_and_sign)
+
+        val toolbar = findViewById<MementoToolbar>(R.id.person_toolbar)
+        title = "" // we have a separate view to display the title
+        setSupportActionBar(toolbar)
+
     }
 
     private fun baseInterpolator(): TransitionSet =
@@ -124,6 +136,10 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
     }
 
     override fun displayPersonInfo(viewModel: PersonInfoViewModel) {
+        displayNameView!!.text = viewModel.displayName
+        ageAndStarSignView!!.text = viewModel.ageAndStarSignlabel
+
+
         imageLoader!!.load(viewModel.image)
                 .withSize(avatarView!!.width, avatarView!!.height)
                 .into(object : ImageLoadedConsumer {
@@ -165,7 +181,7 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemId = item.itemId
         if (itemId == android.R.id.home && !wasCalledFromMemento()) {
-            finishAfterTransition()
+            supportFinishAfterTransition()
             return true
         }
         return super.onOptionsItemSelected(item)

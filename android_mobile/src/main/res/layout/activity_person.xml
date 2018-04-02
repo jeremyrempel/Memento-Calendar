@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:fitsSystemWindows="true">
+  android:layout_height="match_parent">
 
   <ImageView
     android:id="@+id/person_avatar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/person_avatar_height"
     android:contentDescription="@null"
-    android:fitsSystemWindows="true"
     android:scaleType="centerCrop"
     android:transitionName="@string/transition_avatar"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:background="#007c87" />
 
-</FrameLayout>
+  <com.alexstyl.specialdates.ui.widget.MementoToolbar
+    android:id="@+id/person_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="22dp"
+    android:minHeight="@dimen/toolbar_minHeight"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/person_avatar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+  <LinearLayout
+    android:id="@+id/person_infobar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical"
+    android:padding="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/person_avatar">
+
+    <TextView
+      android:id="@+id/person_name"
+      style="@style/Person.Name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      tools:text="Cora Fernandez" />
+
+    <TextView
+      android:id="@+id/person_age_and_sign"
+      style="@style/Person.AgeAndSign"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      tools:text="26, Pisces" />
+  </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
