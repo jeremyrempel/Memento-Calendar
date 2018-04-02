@@ -130,7 +130,6 @@
 
     <activity
       android:name=".person.PersonActivity"
-      android:theme="@style/Memento.Translucent"
       android:parentActivityName=".home.HomeActivity">
 
       <intent-filter>

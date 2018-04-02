@@ -10,6 +10,9 @@
     <item name="toolbarIconColor">@color/light_toolbar_icon_color</item>
     <item name="primaryTextColor">@color/black_light</item>
     <item name="primaryTextColorInverse">@android:color/white</item>
+
+    <item name="android:windowContentTransitions">true</item>
+    <item name="android:windowActivityTransitions">true</item>
   </style>
 
   <style name="Theme.Memento.Dark"
@@ -17,6 +20,8 @@
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
     <item name="useDarkIcons">false</item>
     <item name="toolbarIconColor">@color/dark_toolbar_icon_color</item>
+    <item name="android:windowContentTransitions">true</item>
+    <item name="android:windowActivityTransitions">true</item>
   </style>
 
 

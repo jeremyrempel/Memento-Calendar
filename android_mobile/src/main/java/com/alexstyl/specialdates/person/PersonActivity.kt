@@ -16,11 +16,14 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.alexstyl.android.getColorDrawable
 import com.alexstyl.android.toBitmap
 import com.alexstyl.specialdates.CrashAndErrorTracker
+import com.alexstyl.specialdates.ExternalNavigator
 import com.alexstyl.specialdates.MementoApplication
 import com.alexstyl.specialdates.Optional
 import com.alexstyl.specialdates.R
@@ -60,11 +63,19 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
     private var adapter: ContactItemsAdapter? = null
 
     private var displayingContact = Optional.absent<Contact>()
+    private var navigator: PersonDetailsNavigator? = null
+
+    private val isVisibleContactOptional = Optional.absent<Boolean>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         postponeEnterTransition()
+
+        window.setBackgroundDrawable(resources.getColorDrawable(R.color.scrim))
+        window.setFlags(FLAG_TRANSLUCENT_STATUS, FLAG_TRANSLUCENT_STATUS)
+        window.setTitle("")
 
         setContentView(R.layout.activity_person)
 
@@ -78,8 +89,13 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
         viewPager = findViewById(R.id.person_viewpager)
 
         val toolbar = findViewById<MementoToolbar>(R.id.person_toolbar)
-        title = "" // we have a separate view to display the title
+        if (wasCalledFromMemento()) {
+            toolbar.displayNavigationIconAsUp()
+        } else {
+            toolbar.displayNavigationIconAsClose()
+        }
         setSupportActionBar(toolbar)
+        title = "" // we have a separate view to display the title
 
         adapter = ContactItemsAdapter(LayoutInflater.from(thisActivity()), EventPressedListener { (action) ->
             try {
@@ -96,23 +112,13 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
         tabLayout = Views.findById(this, R.id.person_tabs)
         tabLayout!!.setupWithViewPager(viewPager, true)
 
+        navigator = PersonDetailsNavigator(ExternalNavigator(this, analytics, tracker))
 
     }
+
 
     private fun baseInterpolator(): TransitionSet =
             TransitionInflater.from(this).inflateTransition(R.transition.base_transition_set) as TransitionSet
-
-
-    override fun onResume() {
-        super.onResume()
-        displayingContact = extractContactFrom(intent)
-        if (displayingContact.isPresent) {
-            presenter!!.startPresentingInto(this, displayingContact.get(), AndroidContactActions(this))
-        } else {
-            tracker!!.track(IllegalArgumentException("No contact to display"))
-            finish()
-        }
-    }
 
     private fun wasCalledFromMemento(): Boolean {
         val extras = intent.extras
@@ -216,8 +222,29 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
         if (itemId == android.R.id.home && !wasCalledFromMemento()) {
             supportFinishAfterTransition()
             return true
+        } else if (itemId == R.id.menu_view_contact) {
+            navigator!!.toViewContact(displayingContact)
+        } else if (itemId == ID_TOGGLE_VISIBILITY) {
+            val isVisible = isVisibleContactOptional.get()
+            if (isVisible!!) {
+                presenter!!.hideContact(this)
+            } else {
+                presenter!!.showContact(this)
+            }
+
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        displayingContact = extractContactFrom(intent)
+        if (displayingContact.isPresent) {
+            presenter!!.startPresentingInto(this, displayingContact.get(), AndroidContactActions(this))
+        } else {
+            tracker!!.track(IllegalArgumentException("No contact to display"))
+            finish()
+        }
     }
 
     override fun onPause() {
@@ -234,6 +261,14 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
 
     }
 
+    override fun showPersonAsVisible() {
+        TODO("Visibility is not currently available")
+    }
+
+    override fun showPersonAsHidden() {
+        TODO("Visibility is not currently available")
+    }
+
     companion object {
 
         private const val EXTRA_CONTACT_SOURCE = "extra:source"
@@ -247,14 +282,6 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
             return intent
         }
 
-    }
-
-    override fun showPersonAsVisible() {
-        TODO("Visibility is not currently available")
-    }
-
-    override fun showPersonAsHidden() {
-        TODO("Visibility is not currently available")
     }
 }
 
