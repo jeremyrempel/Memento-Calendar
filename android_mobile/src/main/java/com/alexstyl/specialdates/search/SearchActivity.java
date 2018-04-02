@@ -297,8 +297,9 @@ public class SearchActivity extends ThemedMementoActivity {
     private final SearchResultAdapter.SearchResultClickListener listener = new SearchResultAdapter.SearchResultClickListener() {
 
         @Override
-        public void onContactClicked(Contact contact) {
-            navigator.toContactDetails(contact, thisActivity());
+        public void onContactClicked(Contact contact, int position) {
+            SearchResultContactViewHolder vh = (SearchResultContactViewHolder) resultView.findViewHolderForAdapterPosition(position);
+            navigator.toContactDetails(contact, thisActivity(), vh.getAvatarView());
         }
 
         @Override

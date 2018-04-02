@@ -4,18 +4,19 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  app:foreground="?android:attr/selectableItemBackground"
   android:gravity="center_vertical"
   android:minHeight="56dp"
   android:orientation="horizontal"
   android:paddingLeft="16dp"
   android:paddingRight="16dp"
+  app:foreground="?android:attr/selectableItemBackground"
   tools:background="#31225b61">
 
   <com.alexstyl.specialdates.ui.widget.ColorImageView
     android:id="@+id/people_avatar"
     android:layout_width="48dp"
     android:layout_height="48dp"
+    android:transitionName="@string/transition_avatar"
     app:isCircle="true" />
 
   <TextView

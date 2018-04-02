@@ -18,6 +18,7 @@
       android:layout_marginLeft="16dp"
       android:layout_marginRight="16dp"
       android:layout_marginTop="10dp"
+      android:transitionName="@string/transition_avatar"
       tools:background="#000" />
 
     <LinearLayout

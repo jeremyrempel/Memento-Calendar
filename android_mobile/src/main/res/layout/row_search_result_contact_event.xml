@@ -14,6 +14,7 @@
 
     <com.alexstyl.specialdates.ui.widget.ColorImageView
       android:id="@+id/search_result_avatar"
+      android:transitionName="@string/transition_avatar"
       style="@style/SearchResult.Avatar"
       tools:background="#000" />
 

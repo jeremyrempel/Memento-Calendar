@@ -1,9 +1,12 @@
 package com.alexstyl.specialdates.home
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.support.v4.view.ViewCompat
+import android.view.View
 import com.alexstyl.specialdates.CrashAndErrorTracker
 import com.alexstyl.specialdates.ShareAppIntentCreator
 import com.alexstyl.specialdates.Strings
@@ -113,9 +116,13 @@ class HomeNavigator(private val analytics: Analytics,
         activity.startActivity(intent)
     }
 
-    fun toContactDetails(contact: Contact, activity: Activity) {
+    fun toContactDetails(contact: Contact, activity: Activity, avatarView: View) {
         val intent = PersonActivity.buildIntentFor(activity, contact)
-        activity.startActivity(intent)
+
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+                activity, avatarView, ViewCompat.getTransitionName(avatarView))
+        activity.startActivity(intent, options.toBundle())
+
         analytics.trackContactDetailsViewed(contact)
     }
 

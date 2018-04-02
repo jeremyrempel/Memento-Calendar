@@ -75,8 +75,9 @@ public class UpcomingEventsFragment extends MementoFragment implements UpcomingL
                 new OnUpcomingEventClickedListener() {
 
                     @Override
-                    public void onContactClicked(Contact contact) {
-                        navigator.toContactDetails(contact, getActivity());
+                    public void onContactClicked(Contact contact, int position) {
+                        ContactEventViewHolder vh = (ContactEventViewHolder) upcomingList.findViewHolderForAdapterPosition(position);
+                        navigator.toContactDetails(contact, getActivity(), vh.getAvatarView());
                     }
 
                     @Override

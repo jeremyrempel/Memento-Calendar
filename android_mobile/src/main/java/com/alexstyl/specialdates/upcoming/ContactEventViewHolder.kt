@@ -6,11 +6,11 @@ import com.alexstyl.specialdates.images.ImageLoader
 import com.alexstyl.specialdates.ui.widget.ColorImageView
 import com.alexstyl.specialdates.upcoming.view.OnUpcomingEventClickedListener
 
-internal class ContactEventViewHolder(view: View,
-                                      private val avatarView: ColorImageView,
-                                      private val contactName: TextView,
-                                      private val eventLabel: TextView,
-                                      private val imageLoader: ImageLoader)
+class ContactEventViewHolder(view: View,
+                             val avatarView: ColorImageView,
+                             private val contactName: TextView,
+                             private val eventLabel: TextView,
+                             private val imageLoader: ImageLoader)
     : UpcomingRowViewHolder<UpcomingContactEventViewModel>(view) {
 
     override fun bind(viewModel: UpcomingContactEventViewModel, listener: OnUpcomingEventClickedListener) {
@@ -23,6 +23,6 @@ internal class ContactEventViewHolder(view: View,
         imageLoader.load(viewModel.contactImagePath)
                 .asCircle()
                 .into(avatarView.imageView)
-        itemView.setOnClickListener { listener.onContactClicked(viewModel.contact) }
+        itemView.setOnClickListener { listener.onContactClicked(viewModel.contact, adapterPosition) }
     }
 }

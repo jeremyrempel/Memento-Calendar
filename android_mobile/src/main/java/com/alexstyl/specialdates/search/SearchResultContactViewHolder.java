@@ -46,10 +46,13 @@ final class SearchResultContactViewHolder extends RecyclerView.ViewHolder {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onContactClicked(viewModel.getContact());
+                        listener.onContactClicked(viewModel.getContact(), getAdapterPosition());
                     }
                 }
         );
     }
 
+    public View getAvatarView() {
+        return avatar;
+    }
 }

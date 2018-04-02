@@ -1,7 +1,10 @@
 package com.alexstyl.specialdates.search
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
+import android.support.v4.view.ViewCompat
+import android.view.View
 import com.alexstyl.specialdates.analytics.Analytics
 import com.alexstyl.specialdates.analytics.Screen
 import com.alexstyl.specialdates.contact.Contact
@@ -12,9 +15,11 @@ import com.alexstyl.specialdates.person.PersonActivity
 
 internal class SearchNavigator(private val analytics: Analytics) {
 
-    fun toContactDetails(contact: Contact, activity: Activity) {
+    fun toContactDetails(contact: Contact, activity: Activity, avatarView: View) {
         val intent = PersonActivity.buildIntentFor(activity, contact)
-        activity.startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+                activity, avatarView, ViewCompat.getTransitionName(avatarView))
+        activity.startActivity(intent, options.toBundle())
         analytics.trackContactDetailsViewed(contact)
     }
 

@@ -260,11 +260,9 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
     }
 
     companion object {
-
         private const val EXTRA_CONTACT_SOURCE = "extra:source"
         private const val EXTRA_CONTACT_ID = "extra:id"
         private const val ANIMATION_DURATION = 400
-
         private const val ID_TOGGLE_VISIBILITY = 1023
 
         fun buildIntentFor(context: Context, contact: Contact): Intent {
