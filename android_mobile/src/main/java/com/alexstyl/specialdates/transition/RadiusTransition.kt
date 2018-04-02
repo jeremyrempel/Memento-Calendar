@@ -54,8 +54,10 @@ class RadiusTransition private constructor(private val startingRadius: Float, pr
             }
 
             override fun setValue(imageView: ImageView, radius: Float) {
-                val drawable = imageView.drawable as RoundedBitmapDrawable
-                drawable.cornerRadius = radius
+                if (imageView.drawable != null && imageView.drawable is RoundedBitmapDrawable) {
+                    val drawable = imageView.drawable as RoundedBitmapDrawable
+                    drawable.cornerRadius = radius
+                }
             }
         }
 

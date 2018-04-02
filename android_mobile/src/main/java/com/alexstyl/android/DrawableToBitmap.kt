@@ -1,9 +1,20 @@
 package com.alexstyl.android
 
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
+import android.support.v4.content.res.ResourcesCompat
+
+fun Resources.getDrawableCompat(@DrawableRes drawableResId: Int): Drawable? =
+        ResourcesCompat.getDrawable(this, drawableResId, null)
+
+fun Resources.getColorDrawable(@ColorRes colorRes: Int): Drawable? =
+        ColorDrawable(ResourcesCompat.getColor(this, colorRes, null))
 
 fun Drawable.toBitmap(): Bitmap {
     if (this is BitmapDrawable) {

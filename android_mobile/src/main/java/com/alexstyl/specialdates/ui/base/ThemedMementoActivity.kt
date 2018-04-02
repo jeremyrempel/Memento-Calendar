@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -59,10 +58,7 @@ open class ThemedMementoActivity : MementoActivity() {
     }
 
     fun getTintedDrawable(@DrawableRes drawableResId: Int): Drawable {
-        val wrappedDrawable = DrawableCompat.wrap(ResourcesCompat.getDrawable(resources, drawableResId, null)!!)
-        val color = attributeExtractor!!.extractToolbarIconColors(this)
-        DrawableCompat.setTintList(wrappedDrawable, ColorStateList.valueOf(color))
-        return wrappedDrawable
+        return themer!!.tintToolbarIcon(drawableResId, this)
     }
 
     companion object {

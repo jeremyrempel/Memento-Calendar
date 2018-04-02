@@ -3,19 +3,19 @@ package com.alexstyl.specialdates.person
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
+import android.support.design.widget.TabLayout
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.support.v4.view.ViewPager
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -34,11 +34,12 @@ import com.alexstyl.specialdates.contact.ContactsProvider
 import com.alexstyl.specialdates.images.ImageLoadedConsumer
 import com.alexstyl.specialdates.images.ImageLoader
 import com.alexstyl.specialdates.transition.RadiusTransition
-import com.alexstyl.specialdates.ui.base.MementoActivity
+import com.alexstyl.specialdates.ui.base.ThemedMementoActivity
 import com.alexstyl.specialdates.ui.widget.MementoToolbar
+import com.novoda.notils.caster.Views
 import javax.inject.Inject
 
-class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener {
+class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentListener {
 
     var analytics: Analytics? = null
         @Inject set
@@ -54,6 +55,9 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
     private var avatarView: ImageView? = null
     private var displayNameView: TextView? = null
     private var ageAndStarSignView: TextView? = null
+    private var viewPager: ViewPager? = null
+    private var tabLayout: TabLayout? = null
+    private var adapter: ContactItemsAdapter? = null
 
     private var displayingContact = Optional.absent<Contact>()
 
@@ -64,15 +68,6 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
 
         setContentView(R.layout.activity_person)
 
-        val radiusSize = resources.getDimensionPixelSize(R.dimen.person_avatar_height) / 2F
-        window.sharedElementEnterTransition = baseInterpolator()
-                .addTransition(RadiusTransition.toSquare(radiusSize))
-
-        window.sharedElementReturnTransition =
-                baseInterpolator()
-                        .addTransition(RadiusTransition.toCircle(radiusSize))
-
-
         val applicationModule = (application as MementoApplication).applicationModule
         applicationModule.inject(this)
         analytics!!.trackScreen(Screen.PERSON)
@@ -80,10 +75,27 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
         avatarView = findViewById(R.id.person_avatar)
         displayNameView = findViewById(R.id.person_name)
         ageAndStarSignView = findViewById(R.id.person_age_and_sign)
+        viewPager = findViewById(R.id.person_viewpager)
 
         val toolbar = findViewById<MementoToolbar>(R.id.person_toolbar)
         title = "" // we have a separate view to display the title
         setSupportActionBar(toolbar)
+
+        adapter = ContactItemsAdapter(LayoutInflater.from(thisActivity()), EventPressedListener { (action) ->
+            try {
+                action.run()
+            } catch (ex: ActivityNotFoundException) {
+                Toast.makeText(thisActivity(), R.string.no_app_found, Toast.LENGTH_SHORT).show()
+                tracker!!.track(ex)
+            }
+        })
+
+        viewPager!!.adapter = adapter
+        viewPager!!.offscreenPageLimit = 2
+
+        tabLayout = Views.findById(this, R.id.person_tabs)
+        tabLayout!!.setupWithViewPager(viewPager, true)
+
 
     }
 
@@ -136,14 +148,26 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
     }
 
     override fun displayPersonInfo(viewModel: PersonInfoViewModel) {
-        displayNameView!!.text = viewModel.displayName
-        ageAndStarSignView!!.text = viewModel.ageAndStarSignlabel
+        displayNameView?.text = viewModel.displayName
+        ageAndStarSignView?.text = viewModel.ageAndStarSignlabel
 
 
         imageLoader!!.load(viewModel.image)
                 .withSize(avatarView!!.width, avatarView!!.height)
                 .into(object : ImageLoadedConsumer {
                     override fun onImageLoaded(loadedImage: Bitmap?) {
+
+                        window.sharedElementEnterTransition = baseInterpolator()
+                                .addTransition(
+                                        RadiusTransition.toSquare(loadedImage!!.width / 2F)
+                                )
+
+                        window.sharedElementReturnTransition =
+                                baseInterpolator()
+                                        .addTransition(
+                                                RadiusTransition.toCircle(resources.getDimensionPixelSize(R.dimen.person_avatar_height) / 2F)
+                                        )
+
                         val drawable = RoundedBitmapDrawableFactory.create(resources, loadedImage)
                         drawable.cornerRadius = 0F
                         avatarView?.setImageDrawable(drawable)
@@ -163,14 +187,23 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
     }
 
     override fun displayAvailableActions(viewModel: PersonAvailableActionsViewModel) {
+        adapter!!.displayEvents(viewModel)
+
+        updateTabIfNeeded(0, R.drawable.ic_gift)
+        updateTabIfNeeded(1, R.drawable.ic_call)
+        updateTabIfNeeded(2, R.drawable.ic_message)
+
+        if (tabLayout!!.tabCount <= 1) {
+            tabLayout!!.visibility = View.GONE
+        } else {
+            tabLayout!!.visibility = View.VISIBLE
+        }
     }
 
-    override fun showPersonAsVisible() {
-        throw UnsupportedOperationException("Visibility is not currently available")
-    }
-
-    override fun showPersonAsHidden() {
-        throw UnsupportedOperationException("Visibility is not currently available")
+    private fun updateTabIfNeeded(index: Int, @DrawableRes iconResId: Int) {
+        if (tabLayout!!.getTabAt(index) != null) {
+            tabLayout!!.getTabAt(index)!!.icon = getTintedDrawable(iconResId)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -202,22 +235,26 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
     }
 
     companion object {
+
         private const val EXTRA_CONTACT_SOURCE = "extra:source"
         private const val EXTRA_CONTACT_ID = "extra:id"
         private const val ANIMATION_DURATION = 400
         private const val ID_TOGGLE_VISIBILITY = 1023
-
         fun buildIntentFor(context: Context, contact: Contact): Intent {
             val intent = Intent(context, PersonActivity::class.java)
             intent.putExtra(EXTRA_CONTACT_ID, contact.contactID)
             intent.putExtra(EXTRA_CONTACT_SOURCE, contact.source)
             return intent
         }
+
+    }
+
+    override fun showPersonAsVisible() {
+        TODO("Visibility is not currently available")
+    }
+
+    override fun showPersonAsHidden() {
+        TODO("Visibility is not currently available")
     }
 }
 
-private fun Resources.getDrawableCompat(@DrawableRes drawableResId: Int): Drawable? =
-        ResourcesCompat.getDrawable(this, drawableResId, null)
-
-private fun Resources.getColorDrawable(@ColorRes colorRes: Int): Drawable? =
-        ColorDrawable(ResourcesCompat.getColor(this, colorRes, null))
