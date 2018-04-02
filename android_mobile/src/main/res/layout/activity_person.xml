@@ -3,7 +3,8 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:fitsSystemWindows="true">
 
   <ImageView
     android:id="@+id/person_avatar"
@@ -21,7 +22,7 @@
     android:id="@+id/person_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="@dimen/status_bar_height"
     android:minHeight="@dimen/toolbar_minHeight"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

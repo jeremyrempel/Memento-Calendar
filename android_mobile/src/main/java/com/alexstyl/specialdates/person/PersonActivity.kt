@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.design.widget.TabLayout
@@ -16,6 +17,8 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 import android.widget.ImageView
 import android.widget.TextView
@@ -73,8 +76,11 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
 
         postponeEnterTransition()
 
+        window.statusBarColor = Color.TRANSPARENT
         window.setBackgroundDrawable(resources.getColorDrawable(R.color.scrim))
         window.setFlags(FLAG_TRANSLUCENT_STATUS, FLAG_TRANSLUCENT_STATUS)
+        window.setFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS, FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
         window.setTitle("")
 
         setContentView(R.layout.activity_person)

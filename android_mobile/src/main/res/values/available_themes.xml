@@ -70,13 +70,9 @@
     <item name="colorAccent">#F70776</item>
   </style>
 
-
   <style name="Memento.Translucent" parent="Theme.Memento.Modern">
-
     <item name="android:statusBarColor">@android:color/transparent</item>
-
     <item name="android:windowBackground">@color/scrim</item>
-
     <item name="android:windowTranslucentStatus">true</item>
     <item name="android:colorBackgroundCacheHint">@null</item>
     <item name="android:windowTranslucentNavigation">true</item>
@@ -101,6 +97,7 @@
   <string name="theme_Eggplant">Eggplant</string>
   <string name="theme_Systemo">Systemo</string>
   <string name="theme_Amber">Amber</string>
+  <string name="theme_Modern">Memento Modern</string>
 
 
 </resources>

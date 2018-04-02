@@ -75,4 +75,5 @@
   <dimen name="fab_margin">16dp</dimen>
   <dimen name="fab_size_normal">48dp</dimen>
   <dimen name="fab_total_size">64dp</dimen>
+  <dimen name="status_bar_height">24dp</dimen>
 </resources>

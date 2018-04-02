@@ -13,7 +13,8 @@ public enum MementoTheme {
     EGGPLANT_GREEN(3, R.string.theme_Eggplant, R.style.Theme_Memento_Eggplant),
     MONOCHROME(4, R.string.theme_Monochrome, R.style.Theme_Memento_Monochrome),
     SYSTEMO(5, R.string.theme_Systemo, R.style.Theme_Memento_Systemo),
-    AMBER(6, R.string.theme_Amber, R.style.Theme_Memento_Amber);
+    AMBER(6, R.string.theme_Amber, R.style.Theme_Memento_Amber),
+    MODERN(7, R.string.theme_Modern, R.style.Theme_Memento_Modern);
 
     private int id;
     @StringRes
