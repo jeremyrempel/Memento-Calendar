@@ -59,12 +59,12 @@ class RadiusTransition private constructor(private val startingRadius: Float, pr
             }
         }
 
-        fun toCircle(): RadiusTransition {
-            return RadiusTransition(0F, 1000F)
+        fun toCircle(toRadius: Float): RadiusTransition {
+            return RadiusTransition(0F, toRadius)
         }
 
-        fun toSquare(): RadiusTransition {
-            return RadiusTransition(1000F, 0F)
+        fun toSquare(fromRadius: Float): RadiusTransition {
+            return RadiusTransition(fromRadius, 0F)
         }
     }
 }

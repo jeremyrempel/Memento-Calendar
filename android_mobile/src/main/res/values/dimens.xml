@@ -60,9 +60,6 @@
   <dimen name="widget_block_x3">180dp</dimen>
   <dimen name="widget_block_x4">250dp</dimen>
 
-
-  <dimen name="mini_avatar_size">24dp</dimen>
-  <dimen name="avatar_placeholder_height">38dp</dimen>
   <dimen name="size_daymarker">56dp</dimen>
 
   <dimen name="padding_month_header_vertical">38dp</dimen>

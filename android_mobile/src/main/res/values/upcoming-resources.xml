@@ -8,6 +8,8 @@
 
     <dimen name="upcoming_event_header_vertical_spacing">40dp</dimen>
     <dimen name="upcoming_event_vertical_spacing">20dp</dimen>
+    <dimen name="upcoming_contact_avatar_width">52dp</dimen>
+    <dimen name="upcoming_contact_avatar_height">@dimen/upcoming_contact_avatar_width</dimen>
 
     <dimen name="upcoming_space_between_title_and_content">15dp</dimen>
     <dimen name="upcoming_event_padding_horizontal">16dp</dimen>
@@ -38,8 +40,8 @@
     <style name="Upcoming.Avatar">
         <item name="letterSize">16sp</item>
         <item name="isCircle">true</item>
-        <item name="android:layout_width">52dp</item>
-        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_width">@dimen/upcoming_contact_avatar_width</item>
+        <item name="android:layout_height">@dimen/upcoming_contact_avatar_height</item>
     </style>
 
     <style name="Upcoming.Text" parent="None">

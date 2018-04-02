@@ -72,6 +72,7 @@
 
 
   <style name="Memento.Translucent" parent="Theme.Memento.Modern">
+    <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:windowBackground">@color/scrim</item>
     <item name="android:windowContentTransitions">true</item>
     <item name="android:windowActivityTransitions">true</item>

@@ -52,9 +52,7 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
 
     private var avatarView: ImageView? = null
     private var displayingContact = Optional.absent<Contact>()
-
-    private val isVisibleContactOptional = Optional.absent<Boolean>()
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,12 +60,13 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
 
         setContentView(R.layout.activity_person)
 
+        val radiusSize = resources.getDimensionPixelSize(R.dimen.person_avatar_height) / 2F
         window.sharedElementEnterTransition = baseInterpolator()
-                .addTransition(RadiusTransition.toSquare())
+                .addTransition(RadiusTransition.toSquare(radiusSize))
 
         window.sharedElementReturnTransition =
                 baseInterpolator()
-                        .addTransition(RadiusTransition.toCircle())
+                        .addTransition(RadiusTransition.toCircle(radiusSize))
 
 
         val applicationModule = (application as MementoApplication).applicationModule
@@ -136,6 +135,7 @@ class PersonActivity : MementoActivity(), PersonView, BottomSheetIntentListener 
                     }
 
                     override fun onLoadingFailed() {
+                        // TODO
                         val bitmap = ResourcesCompat.getDrawable(resources, R.mipmap.ic_launcher, null)?.toBitmap()
 
                         val drawable = RoundedBitmapDrawableFactory.create(resources, bitmap)

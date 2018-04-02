@@ -8,10 +8,11 @@
   <ImageView
     android:id="@+id/person_avatar"
     android:layout_width="match_parent"
-    android:layout_height="310dp"
+    android:layout_height="@dimen/person_avatar_height"
     android:contentDescription="@null"
+    android:fitsSystemWindows="true"
     android:scaleType="centerCrop"
     android:transitionName="@string/transition_avatar"
     tools:background="#007c87" />
-  
+
 </FrameLayout>
