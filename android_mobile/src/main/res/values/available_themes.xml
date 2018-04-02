@@ -71,12 +71,25 @@
   </style>
 
 
-  <attr name="useDarkIcons"
-    format="boolean" />
-  <attr name="colorSecondary"
-    format="color" />
-  <attr name="toolbarTheme"
-    format="reference" />
+  <style name="Memento.Translucent" parent="Theme.Memento.Modern">
+    <item name="android:windowBackground">@color/scrim</item>
+    <item name="android:windowContentTransitions">true</item>
+    <item name="android:windowActivityTransitions">true</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:colorBackgroundCacheHint">@null</item>
+    <item name="android:windowTranslucentNavigation">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+  </style>
+
+  <color name="scrim">#99323232</color>
+
+  <attr name="useDarkIcons" format="boolean" />
+  <attr name="colorSecondary" format="color" />
+  <attr name="toolbarTheme" format="reference" />
 
   <string name="theme_BloodyCherry">Bloody Cherry</string>
   <string name="theme_NavyBlue">Navy Blue</string>
