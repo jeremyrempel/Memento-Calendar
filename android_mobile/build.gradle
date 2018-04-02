@@ -88,6 +88,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$android_support_version"
     compile "com.android.support:recyclerview-v7:$android_support_version"
     compile "com.android.support:transition:$android_support_version"
+    compile "com.android.support:palette-v7:${android_support_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
 

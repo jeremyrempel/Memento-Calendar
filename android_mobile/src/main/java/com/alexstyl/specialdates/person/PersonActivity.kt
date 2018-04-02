@@ -83,6 +83,7 @@ class PersonActivity : ThemedMementoActivity(), PersonView, BottomSheetIntentLis
         window.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
         window.setTitle("")
 
+        
         setContentView(R.layout.activity_person)
 
         val applicationModule = (application as MementoApplication).applicationModule

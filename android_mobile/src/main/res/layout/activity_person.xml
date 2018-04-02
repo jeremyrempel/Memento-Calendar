@@ -1,76 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:fitsSystemWindows="true">
+<!--<com.alexstyl.specialdates.ui.widget.ElasticDragDismissFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+  <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+  <!--xmlns:tools="http://schemas.android.com/tools"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="match_parent">-->
 
-  <ImageView
-    android:id="@+id/person_avatar"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/person_avatar_height"
-    android:contentDescription="@null"
-    android:scaleType="centerCrop"
-    android:transitionName="@string/transition_avatar"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:background="#007c87" />
+  <!--<android.support.v4.widget.NestedScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-  <com.alexstyl.specialdates.ui.widget.MementoToolbar
-    android:id="@+id/person_toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/status_bar_height"
-    android:minHeight="@dimen/toolbar_minHeight"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-  <LinearLayout
-    android:id="@+id/person_infobar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
-    android:orientation="vertical"
-    android:padding="16dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/person_avatar">
-
-    <TextView
-      android:id="@+id/person_name"
-      style="@style/Person.Name"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      tools:text="Cora Fernandez" />
-
-    <TextView
-      android:id="@+id/person_age_and_sign"
-      style="@style/Person.AgeAndSign"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      tools:text="26, Pisces" />
-  </LinearLayout>
-
-  <android.support.v4.view.ViewPager
-    android:id="@+id/person_viewpager"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/person_avatar"
-    android:background="@color/light_grey"
-    app:layout_constraintTop_toBottomOf="@id/person_infobar">
-
-    <android.support.design.widget.TabLayout
-      android:id="@+id/person_tabs"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="?colorPrimaryDark"
-      app:tabMinWidth="52dp"
-      app:tabMode="fixed" />
-  </android.support.v4.view.ViewPager>
+      android:layout_height="match_parent"
+      android:fitsSystemWindows="true">
 
-</android.support.constraint.ConstraintLayout>
+      <com.alexstyl.specialdates.ui.widget.ParallaxScrimageView
+        android:id="@+id/person_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/person_avatar_height"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:transitionName="@string/transition_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxScrimAlpha="0.4"
+        app:parallaxFactor="-0.5"
+        app:scrimAlpha="0"
+        app:scrimColor="@color/scrim"
+        tools:background="#007c87" />
+
+      <com.alexstyl.specialdates.ui.widget.MementoToolbar
+        android:id="@+id/person_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/status_bar_height"
+        android:minHeight="@dimen/toolbar_minHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+      <LinearLayout
+        android:id="@+id/person_infobar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/person_avatar">
+
+        <TextView
+          android:id="@+id/person_name"
+          style="@style/Person.Name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          tools:text="Cora Fernandez" />
+
+        <TextView
+          android:id="@+id/person_age_and_sign"
+          style="@style/Person.AgeAndSign"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          tools:text="26, Pisces" />
+      </LinearLayout>
+
+      <android.support.v4.view.ViewPager
+        android:id="@+id/person_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_avatar"
+        android:background="@color/light_grey"
+        app:layout_constraintTop_toBottomOf="@id/person_infobar">
+
+        <android.support.design.widget.TabLayout
+          android:id="@+id/person_tabs"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="?colorPrimaryDark"
+          app:tabMinWidth="52dp"
+          app:tabMode="fixed" />
+      </android.support.v4.view.ViewPager>
+
+    </android.support.constraint.ConstraintLayout>
+  <!--</android.support.v4.widget.NestedScrollView>-->
+<!--</com.alexstyl.specialdates.ui.widget.ElasticDragDismissFrameLayout>-->
