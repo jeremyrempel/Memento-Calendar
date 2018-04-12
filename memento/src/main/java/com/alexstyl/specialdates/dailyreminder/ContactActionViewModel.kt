@@ -5,4 +5,5 @@ class ContactActionViewModel(val id: Int, val label: String, val type: ActionTyp
 enum class ActionType {
     CALL,
     SEND_WISH
+
 }

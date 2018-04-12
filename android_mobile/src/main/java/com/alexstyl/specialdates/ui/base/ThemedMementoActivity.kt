@@ -20,14 +20,14 @@ import javax.inject.Inject
 
 open class ThemedMementoActivity : MementoActivity() {
 
-    var themer: Themer? = null
+    lateinit var themer: Themer
         @Inject set
     var attributeExtractor: AttributeExtractor? = null
         @Inject set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as MementoApplication).applicationModule.inject(this)
-        themer!!.applyThemeTo(this)
+        themer.applyThemeTo(this)
         super.onCreate(savedInstanceState)
     }
 

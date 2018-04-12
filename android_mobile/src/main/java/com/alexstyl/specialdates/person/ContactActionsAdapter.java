@@ -41,7 +41,7 @@ public class ContactActionsAdapter extends RecyclerView.Adapter<CallViewHolder> 
         return viewModels.size();
     }
 
-    public void displayCallMethods(List<ContactActionViewModel> viewModels) {
+    public void display(List<ContactActionViewModel> viewModels) {
         this.viewModels.clear();
         this.viewModels.addAll(viewModels);
         notifyItemRangeChanged(0, viewModels.size());

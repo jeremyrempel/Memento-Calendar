@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_CALL
 import android.content.Intent.ACTION_SENDTO
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,6 +14,8 @@ import com.alexstyl.specialdates.MementoApplication
 import com.alexstyl.specialdates.R
 import com.alexstyl.specialdates.contact.Contact
 import com.alexstyl.specialdates.contact.ContactIntentExtractor
+import com.alexstyl.specialdates.dailyreminder.ActionType
+import com.alexstyl.specialdates.images.ImageLoader
 import com.alexstyl.specialdates.person.AndroidContactActions
 import com.alexstyl.specialdates.person.ContactActionsAdapter
 import com.alexstyl.specialdates.ui.base.ThemedMementoActivity
@@ -19,18 +23,24 @@ import javax.inject.Inject
 
 class PersonActionsActivity : ThemedMementoActivity() {
 
-    var presenter: ContactActionsPresenter? = null
+    lateinit var presenter: ContactActionsPresenter
         @Inject set
-    var extractor: ContactIntentExtractor? = null
+    lateinit var extractor: ContactIntentExtractor
         @Inject set
-    var errorTracker: CrashAndErrorTracker? = null
+    lateinit var errorTracker: CrashAndErrorTracker
+        @Inject set
+    lateinit var imageLoader: ImageLoader
         @Inject set
 
-    var view: ContactActionsView? = null
+    lateinit var view: ContactActionsView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_call)
+        setContentView(R.layout.activity_person_actions)
+
+        window.statusBarColor = Color.TRANSPARENT
+        window.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.scrim)))
 
         (application as MementoApplication).applicationModule.inject(this)
 
@@ -41,36 +51,31 @@ class PersonActionsActivity : ThemedMementoActivity() {
             finish()
         }
         recyclerView.adapter = adapter
-        val contact = extractor?.getContactExtra(intent)
-        if (contact != null && contact.isPresent) {
-            view = AndroidContactActionsView(contact.get(), adapter)
+
+        val contact = extractor.getContactExtra(intent)
+        val actionType = intent.actionType
+
+        if (contact.isPresent && actionType != null) {
+            view = AndroidContactActionsView(
+                    findViewById(R.id.actions_avatar),
+                    findViewById(R.id.actions_prompt),
+                    adapter,
+                    imageLoader,
+                    contact.get(), actionType)
         } else {
-            errorTracker?.track(RuntimeException("Tried to load the actions for a contact from $intent"))
+            errorTracker.track(RuntimeException("Tried to load the actions for a contact from $intent"))
             finish()
         }
-
     }
 
     override fun onStart() {
         super.onStart()
-        if (view != null) {
-            startPresentingInto(view!!)
-        }
-    }
-
-    private fun startPresentingInto(view: ContactActionsView) {
-        val action = AndroidContactActions(this)
-        when {
-            intent.action == ACTION_CALL -> presenter?.startPresentingCallsInto(view, action)
-            intent.action == ACTION_SENDTO -> presenter?.startPresentingMessagingInto(view, action)
-            else -> {
-            }
-        }
+        presenter.startPresentingInto(view, AndroidContactActions(this))
     }
 
     override fun onStop() {
         super.onStop()
-        presenter?.stopPresenting()
+        presenter.stopPresenting()
     }
 
 
@@ -93,4 +98,16 @@ class PersonActionsActivity : ThemedMementoActivity() {
                     .putExtra(ContactIntentExtractor.EXTRA_CONTACT_SOURCE, contact.source)
         }
     }
+
+    private val Intent.actionType: ActionType?
+        get() =
+            when (this.action) {
+                ACTION_CALL -> ActionType.CALL
+                ACTION_SENDTO -> ActionType.SEND_WISH
+                else -> {
+                    null
+                }
+            }
 }
+
+

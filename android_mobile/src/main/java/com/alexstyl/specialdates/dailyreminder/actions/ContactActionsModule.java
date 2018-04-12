@@ -1,6 +1,7 @@
 package com.alexstyl.specialdates.dailyreminder.actions;
 
 import com.alexstyl.specialdates.CrashAndErrorTracker;
+import com.alexstyl.specialdates.Strings;
 import com.alexstyl.specialdates.contact.ContactIntentExtractor;
 import com.alexstyl.specialdates.contact.ContactsProvider;
 import com.alexstyl.specialdates.person.ContactActionsProvider;
@@ -14,8 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 public class ContactActionsModule {
 
     @Provides
-    ContactActionsPresenter presenter(ContactActionsProvider personActionsProvider) {
-        return new ContactActionsPresenter(personActionsProvider, Schedulers.io(), AndroidSchedulers.mainThread());
+    ContactActionsPresenter presenter(ContactActionsProvider personActionsProvider, Strings strings) {
+        return new ContactActionsPresenter(personActionsProvider, strings, Schedulers.io(), AndroidSchedulers.mainThread());
     }
 
     @Provides

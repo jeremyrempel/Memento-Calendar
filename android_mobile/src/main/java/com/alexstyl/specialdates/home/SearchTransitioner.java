@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.transition.Fade;
 import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
+import android.support.v4.view.ViewCompat;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -104,7 +105,7 @@ final class SearchTransitioner {
 
             TransitionManager.beginDelayedTransition(activityContent, new Fade(Fade.IN));
             activityContent.setVisibility(VISIBLE);
-            toolbarHolder.setElevation(0);
+            ViewCompat.setElevation(toolbarHolder, 0);
         }
     }
 }
