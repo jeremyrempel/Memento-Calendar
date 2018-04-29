@@ -100,7 +100,7 @@ class AddEventActivity : ThemedMementoActivity(), Listener, OnEventDatePickedLis
             presenter.saveChanges()
             finishActivitySuccessfully()
         }
-        view = AndroidAddEventView(avatarView, adapter, imageLoader, createToolbarAnimator(toolbar), saveButton)
+        view = AndroidAddEventView(avatarView, adapter, imageLoader, createToolbarAnimator(toolbar), saveButton, AddEventNavigator(this))
         presenter.startPresentingInto(view)
     }
 

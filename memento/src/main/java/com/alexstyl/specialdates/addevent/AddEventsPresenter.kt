@@ -32,6 +32,7 @@ class AddEventsPresenter(private val analytics: Analytics,
 
     private val saveUISubject = ReplaySubject.create<Boolean>()
     private val eventsUISubject = ReplaySubject.create<List<AddEventContactEventViewModel>>()
+    private val contactUpdateSubject = ReplaySubject.create<Contact>()
     private var startingEvents = emptyViewModels()
 
     private val imageSubject = ReplaySubject.create<URI>()
@@ -61,6 +62,9 @@ class AddEventsPresenter(private val analytics: Analytics,
                                 view.preventSave()
                             }
                         },
+                contactUpdateSubject.subscribe { updatedContact ->
+                    view.displayUpdatedContact(updatedContact)
+                },
                 eventsUISubject
                         .subscribe { viewModels ->
                             view.display(viewModels)
@@ -222,6 +226,11 @@ class AddEventsPresenter(private val analytics: Analytics,
                                     .subscribeOn(workScheduler)
                                     .subscribe()
                         }
+                    }.doOnNext {
+                        if (it) {
+                            // TODO pass contact somehow
+                            contactUpdateSubject.onNext(contactSubject.value.get())
+                        }
                     }
                             .map {
                                 if (it) {
@@ -252,6 +261,12 @@ class AddEventsPresenter(private val analytics: Analytics,
                             updater.updateEvents()
                                     .subscribeOn(workScheduler)
                                     .subscribe()
+                        }
+                    }.doOnNext {
+                        if (it) {
+                            // TODO pass contact somehow
+                            val newContact = ???
+                            contactUpdateSubject.onNext(newContact)
                         }
                     }.map {
                         if (it) {

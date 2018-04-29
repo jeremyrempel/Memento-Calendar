@@ -14,7 +14,11 @@ class AndroidAddEventView(private val avatarView: AvatarPickerView,
                           private val eventsAdapter: ContactEventsAdapter,
                           private val imageLoader: ImageLoader,
                           private val toolbarAnimator: ToolbarBackgroundAnimator,
-                          private val saveButton: View) : AddEventView {
+                          private val saveButton: View,
+                          private val navigator: AddEventNavigator) : AddEventView {
+    override fun displayUpdatedContact(updatedContact: Contact) {
+        navigator.toContactDetails(updatedContact)
+    }
 
     override fun allowImagePick() {
         avatarView.isEnabled = true

@@ -16,4 +16,5 @@ interface AddEventView {
     fun preventSave()
     
     fun clearAvatar()
+    fun displayUpdatedContact(updatedContact: Contact)
 }
